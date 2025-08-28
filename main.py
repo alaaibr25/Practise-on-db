@@ -14,6 +14,11 @@ class LogForm(FlaskForm):
     email = EmailField('', validators=[DataRequired()])
     pw_form = PasswordField('', validators=[DataRequired()])
     submit = SubmitField('Submit')
+class RegForm(FlaskForm):
+    name = StringField('', validators=[DataRequired()])
+    email = EmailField('', validators=[DataRequired()])
+    pw_form = PasswordField('', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 
@@ -22,6 +27,12 @@ class LogForm(FlaskForm):
 def log_page():
     form = LogForm()
     return render_template('login.html', form=form)
+    
+@app.route('/reg', methods=['GET', 'POST'])
+def reg_page():
+    form = RegForm()
+    return render_template('reg.html', form=form)
+
 
 @app.route('/main')
 def main_page():
@@ -32,6 +43,7 @@ def main_page():
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
