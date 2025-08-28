@@ -2,4 +2,13 @@
 {% block title %}Log in{%endblock%}
 {% block content%}
 <h1>Log in Page</h1>
+
+<form method="post" class="form-style">
+
+{{ render_field(form.email, placeholder='Email Address', form_group_classes='mb-0') }}
+{{ render_field(form.pw_form, placeholder='Password') }}
+{{ render_field(form.submit, button_style='btn btn-outline-dark') }}
+
+</form>
+
 {%endblock%}
