@@ -6,7 +6,10 @@ from flask_bootstrap import Bootstrap5
 import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Mapped, mapped_column
+
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import List
+from sqlalchemy import ForeignKey
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -30,11 +33,22 @@ db.init_app(app)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'users_table'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str] = mapped_column(unique=True)
     pw: Mapped[str] = mapped_column()
+    #Parent
+    comment_chld: Mapped[List["CommentsTable"]] = relationship(back_populates='user_map')
+
+class CommentsTable(db.Model):
+    __tablename__ = "comments_table"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    comment_text: Mapped[str] = mapped_column(nullable=False)
+
+    #child
+    user_id: Mapped[int] = mapped_column(ForeignKey('users_table.id'))
+    user_map: Mapped['User'] = relationship(back_populates='comment_chld')
 
 with app.app_context():
     db.create_all()
@@ -118,6 +132,7 @@ def logout():
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
