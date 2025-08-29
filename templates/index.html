@@ -22,9 +22,11 @@
       </ul>
   
       <div class="d-flex justify-content-end p-3">
-         <a type="button"  class="btn btn-outline-secondary">Comment</a>
+          {{ render_field(form.submit, button_style='btn btn-outline-dark')}}
+
       </div>
 
 </div>
 {%endblock%}
+
 
