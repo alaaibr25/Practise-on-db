@@ -119,10 +119,20 @@ def reg_page():
     return render_template('reg.html', form=form, current_user=current_user)
 
 
-@app.route('/main')
+@app.route('/main', methods=['POST', 'GET'])
+@login_required
 def main_page():
+    all_comments = db.session.execute(db.select(CommentsTable).order_by(CommentsTable.id)).scalars().all()
     form = CommentForm()
-    return render_template('index.html', form=form, current_user=current_user)
+    if form.validate_on_submit():
+        new_cmnt = CommentsTable()
+        new_cmnt.comment_text = form.comment.data
+        new_cmnt.user_map = current_user
+    
+        db.session.add(new_cmnt)
+        db.session.commit()
+        return redirect(url_for('main_page'))
+    return render_template('index.html', form=form, current_user=current_user, all_comments=all_comments)
 
 
 @app.route('/out')
@@ -132,6 +142,7 @@ def logout():
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
