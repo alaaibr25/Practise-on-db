@@ -9,22 +9,23 @@ html, body{width:100%;
 #content{text-align:center;
          margin-top:100px;
 }
-
-
+/* *******************🟣 Index.html 🟣******************* /*/
+.card{margin:20px 350px 20px 350px;
+      text-align:left;
+      border-style:none;
+       }
 /* *******************🟣 FORM 🟣******************* /*/
 
 .form-style{width:25%;
-            margin-left:510px;
-
-
-}
-
+            margin-left:510px;}
 
 /* *******************🟣 MEDIA MAX WIDTH 800PX 🟣******************* /*/
 
 @media (max-width: 800px){
        .form-style{width:50%; margin-left:170px;}
+       .card{margin:20px 50px 20px 50px;}    
 }
+
 
 
 
