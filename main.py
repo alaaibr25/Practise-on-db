@@ -42,7 +42,7 @@ class RegForm(FlaskForm):
 
 class CommentForm(FlaskForm):
     comment = StringField('', validators=[DataRequired()])
-    submit = SubmitField('submit')
+    submit = SubmitField('Comment')
 
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
 @app.route('/', methods=['GET', 'POST'])
@@ -66,6 +66,7 @@ def main_page():
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
