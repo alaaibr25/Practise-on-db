@@ -13,21 +13,30 @@
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
       </div>
 
+      <form method='post'>
       <ul class="list-group list-group-flush ">
         <li class="list-group-item" style="border-style: none;">
             <img src="">
               {{ render_field(form.comment, placeholder='Comment')}}
 
         </li>
+
+       {% for cmnt in all_comments%}
+       <li class="list-group-item">
+           <p style="color:gray;"> {{cmnt.user_map.name}} <span style="color:black;">{{cmnt.comment_text}}</span></p>
+       </li>
+        {%endfor%}
+            
       </ul>
   
-      <div class="d-flex justify-content-end p-3">
+       <div class="d-flex justify-content-end p-3">
           {{ render_field(form.submit, button_style='btn btn-outline-dark')}}
-
       </div>
+      </form>      
 
 </div>
 {%endblock%}
+
 
 
 
