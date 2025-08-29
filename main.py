@@ -55,8 +55,20 @@ class RegForm(FlaskForm):
 class CommentForm(FlaskForm):
     comment = StringField('', validators=[DataRequired()])
     submit = SubmitField('Comment')
+#◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+from functools import wraps
+
+def admin_only_dec(func):
+    @wraps(func)
+    def decorated_func(*args, **kwargs):
+        if current_user.is_anonymous:
+            return abort(406, "Not Acceptable, This mean you are just an anonymous.\nGo away.")
+
+        return func(*args, **kwargs)
+    return decorated_func
 
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 @app.route('/', methods=['GET', 'POST'])
 def log_page():
     form = LogForm()
@@ -106,6 +118,7 @@ def logout():
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
