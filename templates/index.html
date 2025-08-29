@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_field %}
 {% block title %}Main Page{%endblock%}
 {% block content%}
 <h1>Main Page</h1>
@@ -15,7 +16,8 @@
       <ul class="list-group list-group-flush ">
         <li class="list-group-item" style="border-style: none;">
             <img src="">
-          <input type="text" class="form-control" placeholder="Comment" >
+              {{ render_field(form.comment, placeholder='Comment')}}
+
         </li>
       </ul>
   
@@ -25,3 +27,4 @@
 
 </div>
 {%endblock%}
+
