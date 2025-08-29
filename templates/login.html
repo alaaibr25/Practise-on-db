@@ -4,6 +4,12 @@
 {% block content%}
 <h1>Log in Page</h1>
 
+{% with msgs = get_flashed_messages() %}
+{% if msgs %}
+{% for msg in msgs %} <p style="color:red;"> {{msg}} </p> {%endfor%}
+{% endif%}
+{%endwith%}
+
 <form method="post" class="form-style">
 {{ form.csrf_token }}
 {{ render_field(form.email, placeholder='Email Address', form_group_classes='mb-0') }}
@@ -13,5 +19,6 @@
 </form>
 
 {%endblock%}
+
 
 
