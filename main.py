@@ -7,11 +7,17 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
+
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
 app = Flask(__name__)
 bstrap = Bootstrap5(app)
+
+log_manager = LoginManager()
+log_manager.init_app(app)
+
 
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
 
@@ -23,7 +29,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project1.db'
 db.init_app(app)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(unique=True)
@@ -58,6 +64,7 @@ def log_page():
         user_exist = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
         if user_exist:
             if check_password_hash(user_exist.pw, form.pw_form.data):
+                login_user(user_exist)
                 return redirect(url_for('main_page'))
             else:
                 flash('Invalid Password')
@@ -65,7 +72,7 @@ def log_page():
         else:
             flash("This email doesn't exist!\nYou have to Register instead.")
             return redirect(url_for('log_page'))
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, current_user=current_user)
     
 @app.route('/reg', methods=['GET', 'POST'])
 def reg_page():
@@ -81,20 +88,25 @@ def reg_page():
 
         db.session.add(new_user)
         db.session.commit()
+        login_user(new_user)
         return redirect(url_for('log_page'))
-    return render_template('reg.html', form=form)
+    return render_template('reg.html', form=form, current_user=current_user)
 
 
 @app.route('/main')
 def main_page():
     form = CommentForm()
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, current_user=current_user)
 
 
-
+@app.route('/out')
+def logout():
+    logout_user()
+    return redirect(url_for('log_page'))
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
