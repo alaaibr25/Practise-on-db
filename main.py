@@ -55,10 +55,16 @@ class CommentForm(FlaskForm):
 def log_page():
     form = LogForm()
     if form.validate_on_submit():
-    user_exist = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
-    if user_exist:
-        if check_password_hash(user_exist.pw, form.pw_form.data):
-            return redirect(url_for('main_page'))
+        user_exist = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
+        if user_exist:
+            if check_password_hash(user_exist.pw, form.pw_form.data):
+                return redirect(url_for('main_page'))
+            else:
+                flash('Invalid Password')
+                return redirect(url_for('log_page'))
+        else:
+            flash("This email doesn't exist!\nYou have to Register instead.")
+            return redirect(url_for('log_page'))
     return render_template('login.html', form=form)
     
 @app.route('/reg', methods=['GET', 'POST'])
@@ -89,6 +95,7 @@ def main_page():
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
