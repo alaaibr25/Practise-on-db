@@ -16,6 +16,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
 app = Flask(__name__)
+app.secret_key = os.getenv("MYKEY")
 bstrap = Bootstrap5(app)
 
 log_manager = LoginManager()
@@ -142,6 +143,7 @@ def logout():
 
 app.run(debug=True)
 #◻🔘◻**********************◻🔘◻**********************◻🔘◻#
+
 
 
 
